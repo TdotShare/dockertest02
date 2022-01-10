@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./src
+    ports:
+      - "8000:80"
+    volumes:
+      - "./src:/var/www/html"
+    depends_on:
+      - dbserver
+
+  dbserver:
+    image: mysql:latest
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - "vol_db:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test_db1
+
+volumes:
+  vol_db :
